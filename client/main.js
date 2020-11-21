@@ -1,16 +1,17 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import Images from '/lib/images.collection.js';
+//import Images from '/lib/images.collection.js';
+import Surveys from '/lib/surveys.collection.js'; 
 import './main.html';
 
 Template.uploadedFiles.helpers({
   uploadedFiles: function () {
-    return Images.find();
+    return Surveys.find();
   }
 });
 
 Template.uploadForm.onCreated(function () {
-  this.currentUpload = new ReactiveVar(false);
+  this.currentUpload = new ReactiveVar(false);1
 });
 
 Template.uploadForm.helpers({
@@ -26,11 +27,9 @@ Template.uploadForm.events({
       // there was multiple files selected
       var file = e.currentTarget.files[0];
       if (file) {
-        var uploadInstance = Images.insert({
-          file: file,
-          streams: 'dynamic',
-          chunkSize: 'dynamic'
-        }, false);
+        var uploadInstance = Surveys.insert({
+          file: file
+        });
 
         uploadInstance.on('start', function() {
           template.currentUpload.set(this);
